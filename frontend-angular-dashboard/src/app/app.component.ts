@@ -1,25 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Log } from '../../log.model';
-import { LogService } from './services/log.service';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Log } from './models/log.model';
+import { LogService } from './services/log.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   logs: Log[] = [];
 
-  constructor(private logService: LogService) {}
+  private logService = inject(LogService); // ✅ Modern DI
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.logService.getLogs().subscribe({
-      next: (data) => this.logs = data,
-      error: (err) => console.error('Error fetching logs', err)
+      next: (data) => (this.logs = data),
+      error: (err) => console.error('Error fetching logs:', err),
     });
   }
 }
