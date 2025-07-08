@@ -8,10 +8,10 @@
 		<version>3.5.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>com.saurav</groupId>
+	<artifactId>logcollector</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>log-collector-springboot</name>
+	<name>logcollector</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

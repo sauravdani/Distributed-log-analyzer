@@ -1,4 +1,4 @@
-package com.yourpackage.logcollector.model;
+package com.saurav.logcollector.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -12,14 +12,10 @@ public class Log {
     private Long id;
 
     private LocalDateTime timestamp;
-
     private String service;
-
     private String level;
-
     private String message;
 
-    // Constructors
     public Log() {}
 
     public Log(LocalDateTime timestamp, String service, String level, String message) {
