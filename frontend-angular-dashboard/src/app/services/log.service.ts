@@ -13,5 +13,10 @@ export class LogService {
 
   getLogs(): Observable<Log[]> {
     return this.http.get<Log[]>(this.apiUrl);
-  }
+  } 
+
+  deleteLog(id: number) {
+  return this.http.delete(`${this.apiUrl}/${id}`);
+    }
+
 }

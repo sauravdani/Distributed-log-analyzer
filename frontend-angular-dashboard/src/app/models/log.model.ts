@@ -1,6 +1,7 @@
 export interface Log {
-  timestamp: string;
-  service: string;
-  level: string;
-  message: string;
+    id: number;
+    timestamp: string;
+    service: string;
+    level: string;
+    message: string;
 }

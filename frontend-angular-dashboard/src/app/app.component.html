@@ -21,7 +21,11 @@
                 <th>Service</th>
                 <th>Level</th>
                 <th>Message</th>
+                <th>Actions</th>
+
             </tr>
+
+
         </thead>
         <tbody>
             <tr *ngFor="let log of filteredLogs()">
@@ -29,6 +33,9 @@
                 <td>{{ log.service }}</td>
                 <td>{{ log.level }}</td>
                 <td>{{ log.message }}</td>
+                <td>
+                    <button class="delete-button" (click)="deleteLog(log.id)">Delete</button>
+                </td>
             </tr>
         </tbody>
     </table>

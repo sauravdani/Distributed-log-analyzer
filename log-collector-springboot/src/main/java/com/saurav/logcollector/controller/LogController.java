@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/logs")
-@CrossOrigin(origins = "http://localhost:4200")
 public class LogController {
 
     private final LogRepository repo;
@@ -26,4 +26,10 @@ public class LogController {
     public Log postLog(@RequestBody Log log) {
         return repo.save(log);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteLog(@PathVariable Long id) {
+        repo.deleteById(id);
+    }
+
 }

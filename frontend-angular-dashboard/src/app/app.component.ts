@@ -36,4 +36,19 @@ export class AppComponent implements OnInit {
       );
     });
   }
+
+  deleteLog(id: number): void {
+  if (confirm('Are you sure you want to delete this log?')) {
+    this.logService.deleteLog(id).subscribe({
+      next: () => {
+        this.logs = this.logs.filter(log => log.id !== id);
+      },
+      error: (err) => {
+        console.error('Delete failed:', err);
+        alert('Failed to delete log from backend.');
+      }
+    });
+  }
+}
+
 }
