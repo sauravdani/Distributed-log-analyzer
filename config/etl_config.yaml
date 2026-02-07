@@ -1,0 +1,25 @@
+# Project: Distributed Log Analysis System
+# Author: Saurav Dani
+
+project:
+  name: "LogAnalyzer_Pro"
+  base_path: "/user/talentum/project_logs"
+
+storage:
+  # The zones in your HDFS Data Lake
+  raw: "/user/talentum/project_logs/raw"
+  refined: "/user/talentum/project_logs/refined"
+  curated: "/user/talentum/project_logs/curated"
+  checkpoints: "/user/talentum/project_logs/checkpoints"
+
+processing:
+  # Spark optimizations
+  shuffle_partitions: 10
+  
+  # Anomaly Detection Settings
+  anomaly_threshold: 3.0  # Z-Score > 3 means a statistical anomaly
+  lookback_window: "1 hour"
+
+alerts:
+  email_recipient: "sauravdani7@gmail.com"
+  enable_alerts: true
