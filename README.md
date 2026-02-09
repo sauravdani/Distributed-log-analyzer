@@ -1,33 +1,68 @@
+# Distributed Log Analysis System 🚀
 
-#########################################################################################
-# 
-# Project Flow
-# 
-#########################################################################################
+**Author:** Saurav Dani  
+**Tech Stack:** Hadoop HDFS, PySpark, Apache Airflow, Python, Machine Learning (Isolation Forest/Z-Score)
 
-1. First step it to get the requinments and install them using the requirnemnts.txt using: 
-	pip install -r /home/talentum/Distributed-log-analyzer/requirements.txt.
+---
 
-   Faced some errors in installing the requirnments so did this to fix them
-	
-	# 1. Unset the variable causing the conflict
-	unset PYTHONPATH
+## 📖 Project Overview
 
-	# 2. Create a clean Conda environment specifically for this project
-	conda create -n log_project python=3.8 -y
+This project is an end-to-end **Big Data Pipeline** designed to ingest, process, and analyze massive volumes of system logs from diverse sources (Hadoop, Apache, Android, etc.).
 
-	# 3. Activate it
-	conda activate log_project
+It solves the problem of "Log Fatigue" by automating the transformation of unstructured text logs into structured insights. The system features a **Universal Ingestion Engine**, a **Real-Time Anomaly Detection System**, and a **Live Data Simulator** to mimic high-velocity server traffic.
 
-	# 4. Now install the requirements
-	pip install -r /home/talentum/Distributed-log-analyzer/requirements.txt
+---
 
-2. Writing config/schema.py file to descripe how to read all the logs and how are interpreted.
-	
-3. setting up hdfs using setup_hdfs.sh script
+## 🏗 Architecture (Medallion Pattern)
 
-4. Now uploading all the required files from shared to hdfs. making 'upload_script.sh' to do so.
+The data flows through a structured **Data Lake** architecture on HDFS:
 
-5. Now making utils for spark. inetializing all the required context and starting points required in spark.
+1.  **Bronze Layer (Raw)**:  
+    * **Input:** Raw text logs (`.log`) from 16+ different sources.
+    * **Storage:** `/user/talentum/project_logs/raw/`
+    * **Process:** Direct ingestion via `hdfs dfs -put` or Live Stream Generator.
 
-6. now made a notebook directory in the main project directory. inside that created a 'ingestion_layer.ipynb' to handle the data ingestion to make in 
+2.  **Silver Layer (Refined)**:  
+    * **Transformation:** Parsing unstructured text using **Regex** into structured columns (`timestamp`, `level`, `component`, `message`).
+    * **Storage:** `/user/talentum/project_logs/refined/` (Parquet format).
+    * **Engine:** PySpark Ingestion Job.
+
+3.  **Gold Layer (Curated)**:  
+    * **Transformation:** Aggregating metrics (Error Rates, Warning Counts) over time windows (e.g., 1 minute).
+    * **Storage:** `/user/talentum/project_logs/curated/`
+    * **Analytics:** Anomaly Detection (Statistical Z-Score Analysis) to flag spikes in error rates.
+
+---
+
+## 📂 Project Structure
+
+```text
+Distributed-log-analyzer/
+│
+├── config/                     # Configuration Center
+│   ├── schemas.py              # Regex patterns for 16+ log types
+│   └── etl_config.yaml         # Central paths and thresholds
+│
+├── dags/                       # Automation
+│   ├── log_ingestion_dag.py    # Airflow DAG for batch processing
+│   └── live_stream_dag.py      # Airflow DAG for continuous live streaming
+│
+├── spark_jobs/                 # Core Processing Logic
+│   ├── common/                 # Shared utilities (SparkSession, Config Loader)
+│   ├── ingestion/              # Bronze -> Silver logic
+│   │   └── universal_ingest.py # The Generic Parser
+│   └── analysis/               # Silver -> Gold logic
+│       ├── calculate_trends.py # Aggregation Engine
+│       └── detect_anomalies.py # Machine Learning Engine
+│
+├── scripts/                    # Helper Scripts
+│   ├── setup_hdfs.sh           # Builds the Data Lake folders
+│   ├── upload_samples.sh       # Pushes local data to HDFS
+│   └── generate_live_logs.py   # Simulates a live server attack
+│
+├── notebooks/                  # Interactive Development
+│   ├── Ingestion_Layer.ipynb   # Dev notebook for parsing
+│   ├── Calculate_Trends.ipynb  # Dev notebook for aggregation
+│   └── Anomaly_Detection.ipynb # Dev notebook for ML
+│
+└── data/                       # Local Landing Zone for logs
